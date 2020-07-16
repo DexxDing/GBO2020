@@ -55,8 +55,7 @@ public class BindingsAufgabe
     public static void main(String[] args)
     {
         BindingsAufgabe.initProperties();
-        // BindingsAufgabe.bindPropertiesUnidirectional(prop1, prop2, prop3,
-        // prop4);
+        BindingsAufgabe.bindPropertiesUnidirectional(prop1, prop2, prop3, prop4);
         // System.out.println("a) Versuchen Sie ein Beispiel zu
         // programmieren,\n" + "in dem vier unidirektionale Properties (z.B. vom
         // Typ" + "SimpleIntegerProperty)\nin einer Reihe gekoppelt werden! Ist
