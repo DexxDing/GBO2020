@@ -95,7 +95,6 @@ public class Controller
         catch (ScriptException e)
         {
             this.textfieldID.setText(this.textfieldID.getText() + "=>FEHLER");
-            e.printStackTrace();
         }
     }
 
