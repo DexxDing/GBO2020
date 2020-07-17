@@ -10,14 +10,20 @@ public class PaneDynamicButtons extends Application
 {
     Pane root = new Pane();
 
+    Button obenLinks;
+
+    Button untenRechts;
+
     public void start(Stage primaryStage)
     {
-        Button untenRechts = new Button("Kill It");
-        root.setLayoutX(200);
-        root.setLayoutY(200);
+        untenRechts = new Button("Last");
+        obenLinks = new Button("First");
         untenRechts.setLayoutX(200 - untenRechts.getWidth());
-        untenRechts.setLayoutY(200 - untenRechts.getHeight());
-        root.getChildren().addAll(untenRechts);
+        untenRechts.setLayoutY(250 - untenRechts.getHeight());
+        obenLinks.setLayoutX(0.0);
+        obenLinks.setLayoutY(0.0);
+        root.getChildren().addAll(untenRechts, obenLinks);
+        middleButtons();
         handleWidthChange(untenRechts);
         handleHeightChange(untenRechts);
         Scene scene = new Scene(root);
@@ -26,18 +32,38 @@ public class PaneDynamicButtons extends Application
         primaryStage.show();
     }
 
+    public void middleButtons()
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            int index = i;
+            Button b = new Button("Button " + i);
+            b.setLayoutX((i - 1) * 20);
+            b.setLayoutY((i - 1) * 20);
+            root.getChildren().add(b);
+            untenRechts.layoutXProperty().addListener((ov, o, n) ->
+            {
+                b.setLayoutX(((untenRechts.getLayoutX() - (b.getWidth() / 1.2)) - (index - 1) * 20));
+            });
+            untenRechts.layoutYProperty().addListener((ov, o, n) ->
+            {
+                b.setLayoutY(((untenRechts.getLayoutY() - (b.getHeight() / 2)) - (index - 1) * 20));
+            });
+        }
+    }
+
     public void handleWidthChange(Button last)
     {
         root.widthProperty().addListener((ov, o, n) ->
         {
             System.out.println("width: " + n);
-            if (n != o)
+            if (n != o && (double) o != 0.0)
             {
                 last.setLayoutX((double) n - last.getWidth());
             }
             else
             {
-                last.setLayoutX((double) o - last.getWidth());
+                last.setLayoutX(200 - last.getWidth());
             }
         });
     }
@@ -46,13 +72,14 @@ public class PaneDynamicButtons extends Application
     {
         root.heightProperty().addListener((ov, o, n) ->
         {
-            if (n != o)
+            System.out.println("height: " + n);
+            if (n != o && (double) o != 0.0)
             {
                 last.setLayoutY((double) n - last.getHeight());
             }
             else
             {
-                last.setLayoutY((double) o - last.getHeight());
+                last.setLayoutY(250 - last.getHeight());
             }
         });
     }
