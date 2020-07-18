@@ -1,4 +1,4 @@
-package gui.uebung5_2;
+package gui.pizza;
 
 public class Configuration
 {
@@ -20,11 +20,18 @@ public class Configuration
 
     public Configuration(String[] sizeNames, int[] sizePrices, String[] toppingNames, int[] toppingPrices, int numberOfDefaultToppings)
     {
-        this.sizeNames = sizeNames;
-        this.sizePrices = sizePrices;
-        this.toppingNames = toppingNames;
-        this.toppingPrices = toppingPrices;
-        this.numberOfDefaultToppings = numberOfDefaultToppings;
+        if (sizeNames.length != sizePrices.length || toppingNames.length != toppingPrices.length || numberOfDefaultToppings > toppingNames.length)
+        {
+            throw new IllegalArgumentException();
+        }
+        else
+        {
+            this.sizeNames = sizeNames;
+            this.sizePrices = sizePrices;
+            this.toppingNames = toppingNames;
+            this.toppingPrices = toppingPrices;
+            this.numberOfDefaultToppings = numberOfDefaultToppings;
+        }
     }
 
     public String[] getSizeNames()

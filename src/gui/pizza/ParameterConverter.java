@@ -1,16 +1,21 @@
-package gui.uebung5_2;
+package gui.pizza;
 
 import java.util.Map;
 
-public class ParameterConverter {
+public class ParameterConverter
+{
 
     private static final String PARAM_NAME_INGREDIENTS = "toppings";
+
     private static final String PARAM_NAME_INGREDIENTS_PRICES = "toppingPrices";
+
     private static final String PARAM_NAME_SIZES = "sizes";
+
     private static final String PARAM_NAME_SIZE_PRICES = "sizePrices";
+
     private static final String PARAM_NAME_DEFAULT_INGRIEDENTS_NUMBER = "numberOfDefaultToppings";
 
-    public static Configuration createConfiguration(Map<String, String> namedParameters) 
+    public static Configuration createConfiguration(Map<String, String> namedParameters)
     {
         checkParameterExistence(namedParameters);
 
@@ -23,47 +28,47 @@ public class ParameterConverter {
         return new Configuration(sizeNames, sizePrices, toppingNames, toppingPrices, numberOfDefaultToppings);
     }
 
-    private static void checkParameterExistence(Map<String, String> namedParameters) 
+    private static void checkParameterExistence(Map<String, String> namedParameters)
     {
-        String[] allParams = { PARAM_NAME_INGREDIENTS, PARAM_NAME_INGREDIENTS_PRICES, PARAM_NAME_SIZES, PARAM_NAME_SIZE_PRICES,
-            PARAM_NAME_DEFAULT_INGRIEDENTS_NUMBER };
+        String[] allParams =
+        { PARAM_NAME_INGREDIENTS, PARAM_NAME_INGREDIENTS_PRICES, PARAM_NAME_SIZES, PARAM_NAME_SIZE_PRICES, PARAM_NAME_DEFAULT_INGRIEDENTS_NUMBER };
 
-        if (namedParameters.isEmpty()) 
+        if (namedParameters.isEmpty())
         {
             throw new IllegalStateException("no named parameters available");
         }
-        for (String parameterName : allParams) 
+        for (String parameterName : allParams)
         {
-            if (!namedParameters.containsKey(parameterName)) 
+            if (!namedParameters.containsKey(parameterName))
             {
                 throw new IllegalStateException("parameter " + parameterName + " does not exist");
             }
         }
     }
 
-    private static String[] parseStringValues(String s) 
+    private static String[] parseStringValues(String s)
     {
         String[] values = s.split(",");
-        for (int i = 0; i < values.length; i++) 
+        for (int i = 0; i < values.length; i++)
         {
             values[i] = values[i].trim();
         }
         return values;
     }
 
-    private static int[] parseIntValues(String s) 
+    private static int[] parseIntValues(String s)
     {
         String[] tmp = parseStringValues(s);
         int[] values = new int[tmp.length];
 
-        for (int i = 0; i < values.length; i++) 
+        for (int i = 0; i < values.length; i++)
         {
             values[i] = Integer.parseInt(tmp[i]);
         }
         return values;
     }
 
-    private static int parseIntValue(String s) 
+    private static int parseIntValue(String s)
     {
         return Integer.parseInt(s.trim());
     }
