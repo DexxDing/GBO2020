@@ -16,6 +16,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author bennet
+ * 
+ */
 public class Pizza extends Application
 {
     private GridPane root;
