@@ -66,9 +66,9 @@ public class LaenderInformation extends Application
         primaryStage.setResizable(false);
         primaryStage.show();
         initButton();
-        handleLandSelection();
         initTextFields();
         handleHinzufuegen();
+        handleLandSelection();
     }
 
     public void initButton()
@@ -121,23 +121,30 @@ public class LaenderInformation extends Application
 
     public void handleLandSelection()
     {
-        comboBox.setOnAction(e ->
+        comboBox.valueProperty().addListener((ov, o, n) ->
         {
-            if (exactCB.isSelected() && countryList.size() > 0)
+            try
             {
-                landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
-                hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
-                einwohnerL.setText("Einwohner: " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
-                flaecheL.setText("Fläche (in qkm): " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
-                dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getExactFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+                if (exactCB.isSelected() && countryList.size() > 0)
+                {
+                    landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
+                    hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
+                    einwohnerL.setText("Einwohner: " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
+                    flaecheL.setText("Fläche (in qkm): " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
+                    dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getExactFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+                }
+                else if (!exactCB.isSelected() && countryList.size() > 0)
+                {
+                    landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
+                    hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
+                    einwohnerL.setText("Einwohner: " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
+                    flaecheL.setText("Fläche (in qkm): " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
+                    dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getRoundFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+                }
             }
-            else if (!exactCB.isSelected() && countryList.size() > 0)
+            catch (Exception nullPointer)
             {
-                landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
-                hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
-                einwohnerL.setText("Einwohner: " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
-                flaecheL.setText("Fläche (in qkm): " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
-                dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getRoundFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+
             }
         });
     }
@@ -233,7 +240,7 @@ public class LaenderInformation extends Application
         {
             if (landTF.getText() != null && hauptstadtTF != null && einwohnerTF.getText() != null && flaecheTF.getText() != null)
             {
-                countryList.add(new Country(landTF.getText(), hauptstadtTF.getText(), Long.valueOf(einwohnerTF.getText()), Long.valueOf(flaecheTF.getText())));
+                this.countryList.add(new Country(landTF.getText(), hauptstadtTF.getText(), Long.valueOf(einwohnerTF.getText()), Long.valueOf(flaecheTF.getText())));
                 comboBox.getItems().clear();
                 comboBox.getItems().addAll(countryList);
             }
