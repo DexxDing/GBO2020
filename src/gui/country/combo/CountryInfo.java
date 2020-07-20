@@ -1,4 +1,4 @@
-package gui.uebung6_1;
+package gui.country.combo;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,13 +24,13 @@ import javafx.stage.Stage;
  *           sein kann, zu einer ComboBox nicht Strings, sondern Objekte eines
  *           anderen Typs hinzuzufügen.
  */
-public class LaenderInformation extends Application
+public class CountryInfo extends Application
 {
     private ComboBox<Country> comboBox;
 
     private GridPane root;
 
-    private CheckBox exactCB;
+    private CheckBox exactCheckBox;
 
     private DecimalFormat formatter1 = new DecimalFormat("##,###,###");
 
@@ -48,7 +48,7 @@ public class LaenderInformation extends Application
 
     private TextField landTF, hauptstadtTF, einwohnerTF, flaecheTF;
 
-    private Button addLandBtn;
+    private Button addBtn, deleteBtn;
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -57,10 +57,11 @@ public class LaenderInformation extends Application
         // root.setGridLinesVisible(true);
         initComboBox();
         addToContainer();
-        initExactCB();
+        initCheckBox();
         handleLandSelection();
+        comboBox.getSelectionModel().selectFirst();
         initLabels();
-        Scene scene = new Scene(root, 800, 220);
+        Scene scene = new Scene(root, 800, 240);
         primaryStage.setTitle("Länder-Informationen");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
@@ -69,20 +70,29 @@ public class LaenderInformation extends Application
         initTextFields();
         handleHinzufuegen();
         handleLandSelection();
+        handleDelete();
     }
 
     public void initButton()
     {
-        addLandBtn = new Button("Hinzufügen");
-        root.add(addLandBtn, 4, 8);
+        addBtn = new Button("Hinzuf\u00fcgen");
+        addBtn.setId("add");
+        deleteBtn = new Button("L\u00f6schen");
+        deleteBtn.setId("delete");
+        root.add(addBtn, 4, 8);
+        root.add(deleteBtn, 0, 9);
     }
 
     public void initComboBox()
     {
         Country kanada = new Country("Kanada", "Ottawa", 34278406, 9984670);
-        Country luxemburg = new Country("Luxemburg", "Luxemburg", 511804, 2586);
-        countryList.addAll(kanada, luxemburg);
+        Country luxemburg = new Country("Luxemburg", "Luxemburg", 511840, 2586);
+        Country china = new Country("China", "Peking", 1349585838, 9571302);
+        Country cookinseln = new Country("Cookinseln", "Avarua", 18631, 242);
+        Country blabla = new Country("Taka-Tuka-Land", "Säbelweiler", 467, 25);
+        countryList.addAll(kanada, luxemburg, china, cookinseln, blabla);
         comboBox = new ComboBox<Country>();
+        comboBox.setId("countrySelector");
         comboBox.getItems().addAll(countryList);
     }
 
@@ -92,25 +102,66 @@ public class LaenderInformation extends Application
         GridPane.setMargin(comboBox, new Insets(5));
     }
 
-    public void initExactCB()
+    public void initCheckBox()
     {
-        exactCB = new CheckBox("exakte Angaben");
-        root.add(exactCB, 0, 2);
-        GridPane.setMargin(exactCB, new Insets(5));
+        exactCheckBox = new CheckBox("exakte Angaben");
+        exactCheckBox.setId("exactValues");
+        root.add(exactCheckBox, 0, 2);
+        GridPane.setMargin(exactCheckBox, new Insets(5));
+        exactCheckBox.selectedProperty().addListener((ov, o, n) ->
+        {
+            if (countryList.size() > 0)
+            {
+
+                if (n)
+                {
+                    setExactText();
+                }
+                else
+                {
+                    setRoundText();
+                }
+            }
+        });
+    }
+
+    public void handleDelete()
+    {
+        deleteBtn.setOnAction(e ->
+        {
+            System.out.println("Country List size = " + countryList.size());
+            if (countryList.size() > 0)
+            {
+                countryList.remove(comboBox.getSelectionModel().getSelectedIndex());
+                comboBox.getItems().clear();
+                comboBox.getItems().addAll(countryList);
+                comboBox.getSelectionModel().selectLast();
+            }
+            else if (countryList.isEmpty())
+            {
+                comboBox.setPromptText("Keine L\u00e4nder vorhanden");
+                initEmptyLabels();
+            }
+        });
     }
 
     public void initLabels()
     {
         List<Label> labelList = new ArrayList<Label>();
-        landL = new Label("Land: ");
+        landL = new Label(comboBox.getSelectionModel().getSelectedItem().getName());
+        landL.setId("countryName");
         labelList.add(landL);
-        hauptstadtL = new Label("Hauptstadt: ");
+        hauptstadtL = new Label(comboBox.getSelectionModel().getSelectedItem().getCapital());
+        hauptstadtL.setId("capital");
         labelList.add(hauptstadtL);
-        einwohnerL = new Label("Einwohner: ");
+        einwohnerL = new Label(getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getPeople()));
+        einwohnerL.setId("population");
         labelList.add(einwohnerL);
-        flaecheL = new Label("Fläche (in qkm):");
+        flaecheL = new Label(getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getArea()));
+        flaecheL.setId("area");
         labelList.add(flaecheL);
-        dichteL = new Label("Bevölkerungsdichte (in Personen pr qkm): ");
+        dichteL = new Label(getRoundFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity())));
+        dichteL.setId("density");
         labelList.add(dichteL);
         for (int i = 0; i < labelList.size(); i++)
         {
@@ -119,27 +170,28 @@ public class LaenderInformation extends Application
         }
     }
 
+    public void initEmptyLabels()
+    {
+        landL.setText("Land: ");
+        hauptstadtL.setText("Hauptstadt: ");
+        einwohnerL.setText("Einwohner: ");
+        flaecheL.setText("Fläche (in qkm): ");
+        dichteL.setText("Bevölkerungsdichte (in Personen pro qkm)");
+    }
+
     public void handleLandSelection()
     {
         comboBox.valueProperty().addListener((ov, o, n) ->
         {
             try
             {
-                if (exactCB.isSelected() && countryList.size() > 0)
+                if (exactCheckBox.isSelected() && countryList.size() > 0 && o != n)
                 {
-                    landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
-                    hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
-                    einwohnerL.setText("Einwohner: " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
-                    flaecheL.setText("Fläche (in qkm): " + (getExactFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
-                    dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getExactFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+                    setExactText();
                 }
-                else if (!exactCB.isSelected() && countryList.size() > 0)
+                else if (!exactCheckBox.isSelected() && countryList.size() > 0 && o != n)
                 {
-                    landL.setText("Land: " + (comboBox.getSelectionModel().getSelectedItem().getName()));
-                    hauptstadtL.setText("Hauptstadt: " + (comboBox.getSelectionModel().getSelectedItem().getCapital()));
-                    einwohnerL.setText("Einwohner: " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getPeople())));
-                    flaecheL.setText("Fläche (in qkm): " + (getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getArea())));
-                    dichteL.setText("Bevölkerungsdichte (in Personen pr qkm): " + (getRoundFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity()))));
+                    setRoundText();
                 }
             }
             catch (Exception nullPointer)
@@ -147,6 +199,31 @@ public class LaenderInformation extends Application
 
             }
         });
+    }
+
+    public void setRoundText()
+    {
+        landL.setText(comboBox.getSelectionModel().getSelectedItem().getName());
+        hauptstadtL.setText(comboBox.getSelectionModel().getSelectedItem().getCapital());
+        einwohnerL.setText(getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getPeople()));
+        flaecheL.setText(getRoundFormat(comboBox.getSelectionModel().getSelectedItem().getArea()));
+        dichteL.setText(getRoundFormat(Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity())));
+    }
+
+    public void setExactText()
+    {
+        try
+        {
+            landL.setText(comboBox.getSelectionModel().getSelectedItem().getName());
+            hauptstadtL.setText(comboBox.getSelectionModel().getSelectedItem().getCapital());
+            einwohnerL.setText(getExactFormat(comboBox.getSelectionModel().getSelectedItem().getPeople()));
+            flaecheL.setText(getExactFormat(comboBox.getSelectionModel().getSelectedItem().getArea()));
+            dichteL.setText("" + (Long.valueOf(comboBox.getSelectionModel().getSelectedItem().getDensity())));
+        }
+        catch (NullPointerException np)
+        {
+            // TODO: handle exception
+        }
     }
 
     public String getExactFormat(Long value)
@@ -195,8 +272,7 @@ public class LaenderInformation extends Application
         }
         else if (value > 99999)
         {
-            formattedValue = formatter3.format(Math.round(((double) value / 1000)));
-            formattedValue = formattedValue + " Mil";
+            formattedValue = formatter3.format(Math.round(((double) value / 1000)) * 1000);
         }
         else if (value > 9999)
         {
@@ -222,11 +298,15 @@ public class LaenderInformation extends Application
     {
         landTF = new TextField();
         landTF.setPromptText("Land");
+        landTF.setId("countryField");
         hauptstadtTF = new TextField();
+        hauptstadtTF.setId("capitalField");
         hauptstadtTF.setPromptText("Hauptstadt");
         einwohnerTF = new TextField();
+        einwohnerTF.setId("populationField");
         einwohnerTF.setPromptText("Einwohner");
         flaecheTF = new TextField();
+        flaecheTF.setId("areaField");
         flaecheTF.setPromptText("Fläche");
         root.add(landTF, 0, 8);
         root.add(hauptstadtTF, 1, 8);
@@ -234,15 +314,25 @@ public class LaenderInformation extends Application
         root.add(flaecheTF, 3, 8);
     }
 
+    public void resetTextFields()
+    {
+        landTF.setText("");
+        hauptstadtTF.setText("");
+        einwohnerTF.setText("");
+        flaecheTF.setText("");
+    }
+
     public void handleHinzufuegen()
     {
-        addLandBtn.setOnAction(e ->
+        addBtn.setOnAction(e ->
         {
             if (landTF.getText() != null && hauptstadtTF != null && einwohnerTF.getText() != null && flaecheTF.getText() != null)
             {
                 this.countryList.add(new Country(landTF.getText(), hauptstadtTF.getText(), Long.valueOf(einwohnerTF.getText()), Long.valueOf(flaecheTF.getText())));
                 comboBox.getItems().clear();
                 comboBox.getItems().addAll(countryList);
+                resetTextFields();
+                comboBox.getSelectionModel().selectLast();
             }
         });
     }

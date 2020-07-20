@@ -17,7 +17,7 @@
       <Button fx:id="achtID" layoutX="85.0" layoutY="192.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="8" />
       <Button fx:id="neunID" layoutX="138.0" layoutY="192.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="9" />
       <Button fx:id="vierID" layoutX="40.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="4" />
-      <Button fx:id="fünfID" layoutX="85.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="5" />
+      <Button fx:id="fuenfID" layoutX="85.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="5" />
       <Button fx:id="sechsID" layoutX="138.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="6" />
       <Button fx:id="einsID" layoutX="40.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="1" />
       <Button fx:id="zweiID" layoutX="85.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleButton" style="-fx-background-color: white;" text="2" />

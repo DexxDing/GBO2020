@@ -1,4 +1,4 @@
-package gui.uebung6_1;
+package gui.country.combo;
 
 public class Country
 {

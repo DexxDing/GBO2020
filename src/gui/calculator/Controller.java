@@ -44,7 +44,7 @@ public class Controller
     private Button vierID;
 
     @FXML
-    private Button fünfID;
+    private Button fuenfID;
 
     @FXML
     private Button sechsID;
@@ -90,7 +90,7 @@ public class Controller
         Computation computation = new Computation();
         try
         {
-            textfieldID.setText(textfieldID.getText() + "=>" + computation.evaluate(textfieldID.getText()));
+            textfieldID.setText(textfieldID.getText() + "=" + computation.evaluate(textfieldID.getText()));
         }
         catch (ScriptException e)
         {
@@ -98,7 +98,7 @@ public class Controller
         }
     }
 
-    @FXML // wenn man die Methode oder ein Attribut private deklarieren möchte,
+    @FXML // wenn man die Methode oder ein Attribut private deklarieren moechte,
           // muss man die Annotation angeben!
     private void onDelte()
     {
