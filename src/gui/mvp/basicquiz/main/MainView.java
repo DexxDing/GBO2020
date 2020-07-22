@@ -19,14 +19,16 @@ public class MainView extends BorderPane
         handleStart();
         handleOverview();
         handleReturn();
+        this.setBottom(new Button("=>"));
     }
 
     public void initToolBar()
     {
         toolBar = new ToolBar();
-        this.startBtn = new Button("Quiz starten");
+        this.startBtn = new Button("Quiz starten!");
         this.returnBtn = new Button("Quiz fortsetzen!");
         this.overviewBtn = new Button("Überblick!");
+        this.overviewBtn.setId("overview");
 
         toolBar.getItems().addAll(startBtn, returnBtn, overviewBtn);
     }

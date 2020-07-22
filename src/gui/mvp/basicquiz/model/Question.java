@@ -7,7 +7,6 @@ public class Question
     private String[] possibleAnswers;
 
     private int indexOfCorrectAnswer;
-    // ...
 
     public Question(String question, String[] possibleAnswers, int indexOfCorrectAnswer)
     {

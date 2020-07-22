@@ -2,6 +2,8 @@ package gui.mvp.basicquiz.overview;
 
 import gui.mvp.basicquiz.main.MainPresenter;
 import gui.mvp.basicquiz.model.Model;
+import gui.mvp.basicquiz.model.Question;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 
 public class OverviewPresenter
@@ -76,6 +78,12 @@ public class OverviewPresenter
     public void clearListView()
     {
         ov.clearContent();
+    }
+
+    public ObservableList<Question> getQuestionList()
+    {
+        // TODO Auto-generated method stub
+        return (ObservableList<Question>) m.getQuestionList();
     }
 
 }

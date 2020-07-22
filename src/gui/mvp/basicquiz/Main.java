@@ -1,8 +1,6 @@
 package gui.mvp.basicquiz;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import gui.mvp.basicquiz.game.QuizPresenter;
 import gui.mvp.basicquiz.game.QuizView;
@@ -18,11 +16,9 @@ import javafx.stage.Stage;
 public class Main extends Application
 {
 
-    private static Path dataDir = Paths.get("").toAbsolutePath();
+    // private static Path dataDir = Paths.get("").toAbsolutePath();
 
-    private static String pathname;
-
-    private Model m;
+    private static Model m;
 
     private MainPresenter mp;
 
@@ -47,7 +43,7 @@ public class Main extends Application
     public MainPresenter getMVP() throws IOException
     {
 
-        m = ModelInitializer.initModel(pathname);
+        // m = ModelInitializer.initModel(pathname);
 
         mp = new MainPresenter();
         mv = new MainView();
@@ -58,10 +54,10 @@ public class Main extends Application
         op = new OverviewPresenter();
         ov = new OverviewView();
 
-        mv.setMainPresenter(mp);
         mp.setMainView(mv);
         mp.setOverviewPresenter(op);
         mp.setQuizPresenter(qp);
+        mv.setMainPresenter(mp);
 
         op.setOverviewView(ov);
         op.setModel(m);
@@ -73,13 +69,15 @@ public class Main extends Application
         qp.setMainPresenter(mp);
         qv.setQuestionPresenter(qp);
 
+        // mp.setCenterQuiz();
+
         return mp;
     }
 
     public static void main(String[] args) throws IOException
     {
-        pathname = (dataDir + args[0]);
-        System.out.println(pathname);
+        m = ModelInitializer.initModel(args[0]);
+        // pathname = (dataDir + args[0]);
         launch(args);
     }
 

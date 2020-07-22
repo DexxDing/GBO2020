@@ -30,6 +30,7 @@ public class QuizView extends VBox
     public void initNodes()
     {
         questionL = new Label();
+        questionL.setId("question");
         nextBtn = new Button("=>");
     }
 
@@ -44,6 +45,7 @@ public class QuizView extends VBox
         {
             questionL.setText(question);
             this.getChildren().add(questionL);
+            questionL.setId("question");
         }
     }
 
@@ -80,6 +82,7 @@ public class QuizView extends VBox
         clearView();
         questionL.setText("Ende des Quiz\n \n");
         this.getChildren().addAll(questionL, nextBtn);
+        questionL.setId("question");
         nextBtn.setDisable(true);
     }
 }
