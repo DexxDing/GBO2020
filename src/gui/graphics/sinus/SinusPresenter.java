@@ -27,4 +27,14 @@ public class SinusPresenter
     {
         return v;
     }
+
+    public void setFormelText()
+    {
+        v.setFormelText(m.toString());
+    }
+
+    public void setModel(double amplitude, double frequenz, double zoom, double phase)
+    {
+        m = new SinusModel(amplitude, frequenz, zoom, phase);
+    }
 }

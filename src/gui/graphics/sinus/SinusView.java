@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 public class SinusView extends BorderPane
 {
@@ -27,6 +28,8 @@ public class SinusView extends BorderPane
 
     private Line xAchse, yAchse;
 
+    private Rectangle clippingRecatangle;
+
     public void setPresenter(SinusPresenter p)
     {
         this.p = p;
@@ -37,12 +40,40 @@ public class SinusView extends BorderPane
         this.setWidth(400);
         this.setHeight(400);
         initView();
-        initCoordinateSystem();
-        changeWindowSize();
         initSlider();
         initSliderBox();
         addNodes();
-        System.out.println(drawingPane.getWidth() + " Breite" + drawingPane.getHeight() + " Hoehe");
+        initClipping();
+        initCoordinateSystem();
+        drawingPane.getChildren().add(new Rectangle(200, 200));
+        drawingPane.widthProperty().addListener((obs, oldValue, newValue) ->
+        {
+            drawingPane.getChildren().clear();
+            xAchse = new Line(0, drawingPane.getHeight() / 2, drawingPane.getWidth(), drawingPane.getHeight() / 2);
+            yAchse = new Line(drawingPane.getWidth() / 2, 0, drawingPane.getWidth() / 2, drawingPane.getHeight());
+            xAchse.setFill(Color.RED);
+            yAchse.setFill(Color.GREEN);
+            drawingPane.getChildren().addAll(xAchse, yAchse);
+        });
+        drawingPane.heightProperty().addListener((obs, oldValue, newValue) ->
+        {
+            drawingPane.getChildren().clear();
+            xAchse = new Line(0, drawingPane.getHeight() / 2, drawingPane.getWidth(), drawingPane.getHeight() / 2);
+            yAchse = new Line(drawingPane.getWidth() / 2, 0, drawingPane.getWidth() / 2, drawingPane.getHeight());
+            xAchse.setFill(Color.RED);
+            yAchse.setFill(Color.GREEN);
+            drawingPane.getChildren().addAll(xAchse, yAchse);
+        });
+        changeWindowSize();
+        changeListener();
+    }
+
+    public void initClipping()
+    {
+        clippingRecatangle = new Rectangle(drawingPane.getWidth(), drawingPane.getHeight());
+        clippingRecatangle.widthProperty().bind(drawingPane.widthProperty());
+        clippingRecatangle.heightProperty().bind(drawingPane.heightProperty());
+        drawingPane.setClip(clippingRecatangle);
     }
 
     public void initView()
@@ -67,6 +98,35 @@ public class SinusView extends BorderPane
         phaseSlider.setId("phase");
         zoomSlider = initSlider(10, 210, 10);
         zoomSlider.setId("zoom");
+    }
+
+    public void changeListener()
+    {
+        ampSlider.valueProperty().addListener((ov, o, n) ->
+        {
+            fillModel();
+            p.setFormelText();
+        });
+        freqSlider.valueProperty().addListener((ov, o, n) ->
+        {
+            fillModel();
+            p.setFormelText();
+        });
+        phaseSlider.valueProperty().addListener((ov, o, n) ->
+        {
+            fillModel();
+            p.setFormelText();
+        });
+        zoomSlider.valueProperty().addListener((ov, o, n) ->
+        {
+            fillModel();
+            p.setFormelText();
+        });
+    }
+
+    public void setFormelText(String s)
+    {
+        formel.setText(s);
     }
 
     public Slider initSlider(double min, double max, double value)
@@ -106,6 +166,11 @@ public class SinusView extends BorderPane
         xAchse.setFill(Color.RED);
         yAchse.setFill(Color.GREEN);
         drawingPane.getChildren().addAll(xAchse, yAchse);
+    }
+
+    public void fillModel()
+    {
+        p.setModel(ampSlider.getValue(), freqSlider.getValue(), zoomSlider.getValue(), phaseSlider.getValue());
     }
 
 }
