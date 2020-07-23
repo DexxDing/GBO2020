@@ -64,7 +64,7 @@ public class SinusView extends BorderPane
             yAchse.setFill(Color.GREEN);
             drawingPane.getChildren().addAll(xAchse, yAchse);
         });
-        changeWindowSize();
+        // changeWindowSize();
         changeListener();
     }
 
@@ -106,21 +106,25 @@ public class SinusView extends BorderPane
         {
             fillModel();
             p.setFormelText();
+            drawSinus();
         });
         freqSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
             p.setFormelText();
+            drawSinus();
         });
         phaseSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
             p.setFormelText();
+            drawSinus();
         });
         zoomSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
             p.setFormelText();
+            drawSinus();
         });
     }
 
@@ -153,11 +157,11 @@ public class SinusView extends BorderPane
         this.setBottom(sliderBox);
     }
 
-    public void changeWindowSize()
-    {
-        xAchse.endXProperty().bind(this.widthProperty());
-        yAchse.endYProperty().bind(this.heightProperty());
-    }
+    // public void changeWindowSize()
+    // {
+    // xAchse.endXProperty().bind(this.widthProperty());
+    // yAchse.endYProperty().bind(this.heightProperty());
+    // }
 
     public void initCoordinateSystem()
     {
@@ -173,4 +177,20 @@ public class SinusView extends BorderPane
         p.setModel(ampSlider.getValue(), freqSlider.getValue(), zoomSlider.getValue(), phaseSlider.getValue());
     }
 
+    public void drawSinus()
+    {
+        double yWert, nextyWert;
+        for (int i = 0; i < this.getWidth(); i++)
+        {
+            yWert = this.p.setErgebnisSinusFnct(i);
+            nextyWert = this.p.setErgebnisSinusFnct(i + 1);
+            this.drawingPane.getChildren().add(new Line(i, yWert, i + 1, nextyWert));
+            yWert = nextyWert;
+        }
+    }
+
+    public void getPane()
+    {
+
+    }
 }

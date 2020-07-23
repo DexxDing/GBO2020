@@ -37,4 +37,9 @@ public class SinusPresenter
     {
         m = new SinusModel(amplitude, frequenz, zoom, phase);
     }
+
+    public double setErgebnisSinusFnct(int i)
+    {
+        return ((this.m.getAmplitude() * Math.sin(this.m.getFrequenz() * -((i - this.v.getWidth() / 2) / this.m.getZoom()) + this.m.getPhase())) * this.m.getZoom() + this.v.getHeight() / 2);
+    }
 }
