@@ -16,7 +16,7 @@ public class View extends VBox
 
     private DialogView dView = new DialogView();
 
-    ListView<Match> matchList;
+    private ListView<Match> matchList;
 
     private ListView<ScoreEntry> scoreList;
 
@@ -80,15 +80,19 @@ public class View extends VBox
     {
         scoreList.getItems().clear();
         scoreList.getItems().addAll(scoreEntries);
-
+    }
+    
+    public void updateMatches(Match[] match) {
+    	matchList.getItems().clear();
+    	matchList.getItems().addAll(match);
     }
 
     public void removeMatch()
     {
         if (matchList.getItems().size() > 0 && !matchList.getItems().isEmpty())
         {
-
             deleteMatch(matchList.getSelectionModel().getSelectedItem());
+            presenter.updateAllMatches();
         }
     }
 

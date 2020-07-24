@@ -40,14 +40,7 @@ public class Presenter
         }
     }
 
-    public void fillScoreList()
-    {
-        view.setScoreList(model.getAllScores());
+    public void updateAllMatches() {
+    	view.updateMatches(model.getAllMatches());
     }
-
-    public void fillMatchList()
-    {
-        view.setMatchList(model.getAllMatches());
-    }
-
 }

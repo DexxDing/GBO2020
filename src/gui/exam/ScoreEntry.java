@@ -23,16 +23,25 @@ class ScoreEntry
 
     private void update(int gA, int gP)
     {
-        if (gA > gP)
+        if (gA > gP) // gewonnen
         {
             score += 3;
-            setGesamtTore(gesamtTore += gA);
+            gesamtTore += gA;
+            gesamtGegentore += gP;
+            gesamtSiege++;
             ;
         }
-        else if (gA == gP)
+        else if (gA == gP) // unentschieden
         {
             score += 1;
             gesamtTore += gA;
+            gesamtGegentore += gP;
+            gesamtUnentschieden++;
+        }
+        else if(gA < gP) { // Lose
+        	gesamtNiederlagen++;
+        	gesamtTore += gA;
+        	gesamtGegentore += gP;
         }
     }
 
@@ -43,7 +52,12 @@ class ScoreEntry
             return;
         }
         score += se.score;
-        // gesamtTore = se.gesamtTore;
+        
+        gesamtTore += se.gesamtTore;
+        gesamtGegentore += se.gesamtGegentore;
+        gesamtSiege += se.gesamtSiege;
+        gesamtUnentschieden += se.gesamtUnentschieden;
+        
     }
 
     public void subtract(ScoreEntry se)
@@ -53,6 +67,11 @@ class ScoreEntry
             return;
         }
         score -= se.score;
+        
+        gesamtTore -= se.gesamtTore;
+        gesamtGegentore -= se.gesamtGegentore;
+        gesamtSiege -= se.gesamtSiege;
+        gesamtUnentschieden -= se.gesamtUnentschieden;
     }
 
     public String getTeam()
@@ -77,57 +96,7 @@ class ScoreEntry
 
     public String toString()
     {
-        return team + ": " + score + "(" + getGesamtGegentore() + " : " + +getGesamtGegentore() + "/" + getGesamtUnentschieden() + "/" + getGesamtNiederlagen() + ")";
-    }
-
-    public int getGesamtTore()
-    {
-        return gesamtTore;
-    }
-
-    public void setGesamtTore(int gesamtTore)
-    {
-        this.gesamtTore = gesamtTore;
-    }
-
-    public int getGesamtGegentore()
-    {
-        return gesamtGegentore;
-    }
-
-    public void setGesamtGegentore(int gesamtGegentore)
-    {
-        this.gesamtGegentore = gesamtGegentore;
-    }
-
-    public int getGesamtSiege()
-    {
-        return gesamtSiege;
-    }
-
-    public void setGesamtSiege(int gesamtSiege)
-    {
-        this.gesamtSiege = gesamtSiege;
-    }
-
-    public int getGesamtUnentschieden()
-    {
-        return gesamtUnentschieden;
-    }
-
-    public void setGesamtUnentschieden(int gesamtUnentschieden)
-    {
-        this.gesamtUnentschieden = gesamtUnentschieden;
-    }
-
-    public int getGesamtNiederlagen()
-    {
-        return gesamtNiederlagen;
-    }
-
-    public void setGesamtNiederlagen(int gesamtNiederlagen)
-    {
-        this.gesamtNiederlagen = gesamtNiederlagen;
+        return team + ": " + score + "(" + gesamtTore + " : " + gesamtGegentore + " " + gesamtSiege + "/" + gesamtUnentschieden + "/" + gesamtNiederlagen + ")";
     }
 
 }
