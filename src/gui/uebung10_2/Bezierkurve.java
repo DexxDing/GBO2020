@@ -85,8 +85,9 @@ public class Bezierkurve  extends Application{
 		root.setRight(right);
 		root.setCenter(drawingPane);
 		
-		cp1.centerXProperty().bind(cp1SliderX.valueProperty());
-		cp1.centerYProperty().bind(cp1SliderY.valueProperty());
+		handleChangeCP1(); // Beispiel ChangeListener
+//		cp1.centerXProperty().bind(cp1SliderX.valueProperty());
+//		cp1.centerYProperty().bind(cp1SliderY.valueProperty());
 		cp2.centerXProperty().bind(cp2SliderX.valueProperty());
 		cp2.centerYProperty().bind(cp2SliderY.valueProperty());
 		
@@ -101,12 +102,19 @@ public class Bezierkurve  extends Application{
 		cp2L.layoutYProperty().bind(cp2.centerYProperty());
 		
 		drawingPane.getChildren().addAll(cc, start, end, cp1, cp2, cp1L, cp2L);
-		
-		
 	}
 	
-	public void handleMouseDragged() {
-		
+	
+	// Variante mit ChangeListener
+	public void handleChangeCP1() {
+		cp1SliderX.valueProperty().addListener( e -> {
+			cp1.setCenterX(cp1SliderX.getValue());
+			System.out.println("X Value Control Point 1: " + cp1SliderX.getValue() );
+		});
+		cp1SliderY.valueProperty().addListener(e -> {
+			cp1.setCenterY(cp1SliderY.getValue());
+			System.out.println("X Value Control Point 2: " + cp1SliderY.getValue() );
+		});
 	}
 	
 	
