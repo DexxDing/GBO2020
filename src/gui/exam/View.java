@@ -1,5 +1,7 @@
 package gui.exam;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -20,6 +22,10 @@ public class View extends VBox
 
     private Button neuesSpielergebnis, deleteSpielerebnis;
 
+    private ObservableList<gui.exam.ScoreEntry> observableListScore;
+
+    private ObservableList<gui.exam.Match> observableMatchList;
+
     public void setPresenter(Presenter p)
     {
         this.presenter = p;
@@ -37,7 +43,7 @@ public class View extends VBox
 
     public void deleteMatch(Match match)
     {
-        matchList.getItems().remove(matchList.getSelectionModel().getSelectedItem());
+        matchList.getItems().remove(match);
     }
 
     public void initNodes()
@@ -66,7 +72,7 @@ public class View extends VBox
 
         deleteSpielerebnis.setOnAction(EventHandler ->
         {
-            deleteMatch(matchList.getSelectionModel().getSelectedItem());
+            presenter.deleteMatch(matchList.getSelectionModel().getSelectedItem());
         });
     }
 
@@ -75,6 +81,25 @@ public class View extends VBox
         scoreList.getItems().clear();
         scoreList.getItems().addAll(scoreEntries);
 
+    }
+
+    public void removeMatch()
+    {
+        if (matchList.getItems().size() > 0 && !matchList.getItems().isEmpty())
+        {
+
+            deleteMatch(matchList.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    public void setScoreList(ScoreEntry[] allScores)
+    {
+        observableListScore = FXCollections.observableArrayList(allScores);
+    }
+
+    public void setMatchList(Match[] allMatches)
+    {
+        observableMatchList = FXCollections.observableArrayList(allMatches);
     }
 
 }

@@ -26,7 +26,8 @@ class ScoreEntry
         if (gA > gP)
         {
             score += 3;
-            gesamtTore += gA;
+            setGesamtTore(gesamtTore += gA);
+            ;
         }
         else if (gA == gP)
         {
@@ -42,7 +43,7 @@ class ScoreEntry
             return;
         }
         score += se.score;
-        gesamtTore = se.gesamtTore;
+        // gesamtTore = se.gesamtTore;
     }
 
     public void subtract(ScoreEntry se)
@@ -76,7 +77,7 @@ class ScoreEntry
 
     public String toString()
     {
-        return team + ": " + score + "(" + getGesamtTore() + " : " + +getGesamtGegentore() + "/" + getGesamtUnentschieden() + "/" + getGesamtNiederlagen() + ")";
+        return team + ": " + score + "(" + getGesamtGegentore() + " : " + +getGesamtGegentore() + "/" + getGesamtUnentschieden() + "/" + getGesamtNiederlagen() + ")";
     }
 
     public int getGesamtTore()

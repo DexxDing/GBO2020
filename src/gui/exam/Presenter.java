@@ -30,4 +30,24 @@ public class Presenter
         view.updateScore(model.getAllScores());
     }
 
+    public void deleteMatch(Match match)
+    {
+        if (match != null)
+        {
+            model.deleteMatch(match);
+            view.removeMatch();
+            view.updateScore(model.getAllScores());
+        }
+    }
+
+    public void fillScoreList()
+    {
+        view.setScoreList(model.getAllScores());
+    }
+
+    public void fillMatchList()
+    {
+        view.setMatchList(model.getAllMatches());
+    }
+
 }
