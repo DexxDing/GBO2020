@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 public class SinusView extends BorderPane
 {
 
-    private SinusPresenter p;
+    private SinusPresenter presenter;
 
     private Pane drawingPane;
 
@@ -32,7 +32,7 @@ public class SinusView extends BorderPane
 
     public void setPresenter(SinusPresenter p)
     {
-        this.p = p;
+        this.presenter = p;
     }
 
     public SinusView()
@@ -105,25 +105,25 @@ public class SinusView extends BorderPane
         ampSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
-            p.setFormelText();
+            presenter.setFormelText();
             drawSinus();
         });
         freqSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
-            p.setFormelText();
+            presenter.setFormelText();
             drawSinus();
         });
         phaseSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
-            p.setFormelText();
+            presenter.setFormelText();
             drawSinus();
         });
         zoomSlider.valueProperty().addListener((ov, o, n) ->
         {
             fillModel();
-            p.setFormelText();
+            presenter.setFormelText();
             drawSinus();
         });
     }
@@ -174,7 +174,7 @@ public class SinusView extends BorderPane
 
     public void fillModel()
     {
-        p.setModel(ampSlider.getValue(), freqSlider.getValue(), zoomSlider.getValue(), phaseSlider.getValue());
+        presenter.setModel(ampSlider.getValue(), freqSlider.getValue(), zoomSlider.getValue(), phaseSlider.getValue());
     }
 
     public void drawSinus()
@@ -184,8 +184,8 @@ public class SinusView extends BorderPane
         double yWert, nextyWert;
         for (int i = 0; i < this.getWidth(); i++)
         {
-            yWert = this.p.setErgebnisSinusFnct(i);
-            nextyWert = this.p.setErgebnisSinusFnct(i + 1);
+            yWert = this.presenter.setErgebnisSinusFnct(i);
+            nextyWert = this.presenter.setErgebnisSinusFnct(i + 1);
             this.drawingPane.getChildren().add(new Line(i, yWert, i + 1, nextyWert));
             yWert = nextyWert;
         }

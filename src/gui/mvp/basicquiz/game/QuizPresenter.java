@@ -92,4 +92,9 @@ public class QuizPresenter
     {
 
     }
+
+    public int getRightIndex()
+    {
+        return this.m.getQuestionList().get(this.getCount()).getIndexOfCorrectAnswer();
+    }
 }

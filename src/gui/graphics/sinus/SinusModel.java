@@ -10,6 +10,8 @@ public class SinusModel
 
     private double phase;
 
+    // Hier noch das Format angeben (#.##);
+
     public SinusModel(double amplitude, double frequenz, double zoom, double phase)
     {
         super();

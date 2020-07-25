@@ -1,15 +1,21 @@
 package gui.mvp.basicquiz.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 public class QuizView extends VBox
 {
     private Label questionL;
 
-    private RadioButton answerRB;
+    private List<RadioButton> radioBtnList;
+
+    private ToggleGroup tGroup;
 
     private QuizPresenter qp;
 
@@ -51,9 +57,14 @@ public class QuizView extends VBox
 
     public void setAnswers(String[] answerArray)
     {
+        radioBtnList = new ArrayList<RadioButton>();
+        tGroup = new ToggleGroup();
         for (String s : answerArray)
         {
-            this.getChildren().add(new RadioButton(s));
+            RadioButton radioButton = new RadioButton(s);
+            radioBtnList.add(radioButton);
+            this.getChildren().add(radioButton);
+            tGroup.getToggles().add(radioButton);
         }
         this.getChildren().add(nextBtn);
     }
@@ -67,8 +78,17 @@ public class QuizView extends VBox
     {
         nextBtn.setOnAction(e ->
         {
-            qp.showNextQuestion();
-            System.out.println("durch");
+            for (RadioButton rButton : radioBtnList)
+            {
+                if (rButton.isSelected())
+                {
+
+                    if (rButton.getText().equals(radioBtnList.get(qp.getRightIndex()).getText()))
+                    {
+                        qp.showNextQuestion();
+                    }
+                }
+            }
         });
     }
 
