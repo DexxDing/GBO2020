@@ -40,6 +40,6 @@ public class SinusPresenter
 
     public double setErgebnisSinusFnct(int i)
     {
-        return ((this.m.getAmplitude() * Math.sin(this.m.getFrequenz() * -((i - this.v.getWidth() / 2) / this.m.getZoom()) + this.m.getPhase())) * this.m.getZoom() + this.v.getHeight() / 2);
+        return ((this.m.getAmplitude() * Math.sin(this.m.getFrequenz() * -((i - this.v.getDarwingPane().getWidth() / 2) / this.m.getZoom()) + this.m.getPhase())) * this.m.getZoom() + this.v.getDarwingPane().getHeight() / 2);
     }
 }

@@ -165,8 +165,8 @@ public class SinusView extends BorderPane
 
     public void initCoordinateSystem()
     {
-        xAchse = new Line(0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
-        yAchse = new Line(this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight());
+        xAchse = new Line(0, drawingPane.getHeight() / 2, drawingPane.getWidth(), drawingPane.getHeight() / 2);
+        yAchse = new Line(drawingPane.getWidth() / 2, 0, drawingPane.getWidth() / 2, drawingPane.getHeight());
         xAchse.setFill(Color.RED);
         yAchse.setFill(Color.GREEN);
         drawingPane.getChildren().addAll(xAchse, yAchse);
@@ -179,6 +179,8 @@ public class SinusView extends BorderPane
 
     public void drawSinus()
     {
+        drawingPane.getChildren().clear();
+        initCoordinateSystem();
         double yWert, nextyWert;
         for (int i = 0; i < this.getWidth(); i++)
         {
@@ -189,8 +191,8 @@ public class SinusView extends BorderPane
         }
     }
 
-    public void getPane()
+    public Pane getDarwingPane()
     {
-
+        return drawingPane;
     }
 }
