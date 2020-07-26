@@ -43,6 +43,8 @@ public class Main extends Application
 
     private TextArea ta = new TextArea();
 
+    private Stage protocolStage = new Stage();
+
     private HBox hbox = new HBox(10);
 
     private int linien, rechtecke, kreise, gesamt;
@@ -302,7 +304,6 @@ public class Main extends Application
 
     public Stage protocolStage()
     {
-        Stage protocolStage = new Stage();
         Pane pane = new AnchorPane();
         ta.setEditable(false);
         pane.getChildren().add(ta);
@@ -315,7 +316,10 @@ public class Main extends Application
         protocolBtn = new Button("Protocol");
         protocolBtn.setOnAction(e ->
         {
-            protocolStage().showAndWait();
+            if (!protocolStage.isShowing())
+            {
+                protocolStage().showAndWait();
+            }
         });
     }
 }
