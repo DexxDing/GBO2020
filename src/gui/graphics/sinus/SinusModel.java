@@ -1,5 +1,7 @@
 package gui.graphics.sinus;
 
+import java.text.DecimalFormat;
+
 public class SinusModel
 {
     private double amplitude;
@@ -10,7 +12,7 @@ public class SinusModel
 
     private double phase;
 
-    // Hier noch das Format angeben (#.##);
+    private DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     public SinusModel(double amplitude, double frequenz, double zoom, double phase)
     {
@@ -69,7 +71,6 @@ public class SinusModel
     @Override
     public String toString()
     {
-        return getAmplitude() + " * sin(" + getFrequenz() + " * " + getZoom() + " + " + getPhase() + " )";
+        return decimalFormat.format(getAmplitude()) + " * sin(" + decimalFormat.format(getFrequenz()) + " * " + decimalFormat.format(getZoom()) + " + " + decimalFormat.format(getPhase()) + " )";
     }
-
 }

@@ -1,6 +1,7 @@
 package gui.graphics.sinus;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
@@ -45,7 +46,7 @@ public class SinusView extends BorderPane
         addNodes();
         initClipping();
         initCoordinateSystem();
-        drawingPane.getChildren().add(new Rectangle(200, 200));
+        drawingPane.getChildren().add(new Rectangle(400, 200));
         drawingPane.widthProperty().addListener((obs, oldValue, newValue) ->
         {
             drawingPane.getChildren().clear();
@@ -85,18 +86,18 @@ public class SinusView extends BorderPane
         zoomL = new Label("Zoom: \t");
 
         drawingPane = new Pane();
-        formel = new Label("adas");
+        formel = new Label("");
     }
 
     public void initSlider()
     {
-        ampSlider = initSlider(-6, 6, 0);
+        ampSlider = initSlider(-6, 6, 0, Orientation.VERTICAL);
         ampSlider.setId("amplitude");
-        freqSlider = initSlider(0, 40, 0);
+        freqSlider = initSlider(0, 40, 0, Orientation.HORIZONTAL);
         freqSlider.setId("frequency");
-        phaseSlider = initSlider(-10, 10, 0);
+        phaseSlider = initSlider(-10, 10, 0, Orientation.VERTICAL);
         phaseSlider.setId("phase");
-        zoomSlider = initSlider(10, 210, 10);
+        zoomSlider = initSlider(10, 210, 10, Orientation.HORIZONTAL);
         zoomSlider.setId("zoom");
     }
 
@@ -133,11 +134,12 @@ public class SinusView extends BorderPane
         formel.setText(s);
     }
 
-    public Slider initSlider(double min, double max, double value)
+    public Slider initSlider(double min, double max, double value, Orientation orientation)
     {
         Slider s = new Slider(min, max, value);
         s.setShowTickLabels(true);
         s.setShowTickMarks(true);
+        s.setOrientation(orientation);
         return s;
     }
 
@@ -156,12 +158,6 @@ public class SinusView extends BorderPane
         this.setCenter(drawingPane);
         this.setBottom(sliderBox);
     }
-
-    // public void changeWindowSize()
-    // {
-    // xAchse.endXProperty().bind(this.widthProperty());
-    // yAchse.endYProperty().bind(this.heightProperty());
-    // }
 
     public void initCoordinateSystem()
     {
