@@ -28,6 +28,7 @@ public class TableViewExample extends Application
         studentTable.getColumns().addAll(nameCol, semesterCol, matnrCol);
         primaryStage.setTitle("TableView Example");
         primaryStage.setScene(new Scene(studentTable));
+        data.get(1).setMatnr(523452);
         primaryStage.show();
     }
 
