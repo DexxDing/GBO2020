@@ -52,7 +52,6 @@ public class MainPresenter
 
     public void setReturnQuiz()
     {
-        // qp.setReturnQuestion();
         mv.setCenter(qp.getQuizView());
     }
 

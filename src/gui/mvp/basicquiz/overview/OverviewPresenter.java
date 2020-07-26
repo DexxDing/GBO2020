@@ -82,7 +82,6 @@ public class OverviewPresenter
 
     public ObservableList<Question> getQuestionList()
     {
-        // TODO Auto-generated method stub
         return (ObservableList<Question>) m.getQuestionList();
     }
 

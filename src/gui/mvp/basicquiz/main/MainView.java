@@ -19,7 +19,6 @@ public class MainView extends BorderPane
         handleStart();
         handleOverview();
         handleReturn();
-        this.setBottom(new Button("=>"));
     }
 
     public void initToolBar()
