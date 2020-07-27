@@ -1,13 +1,53 @@
 package gui.Stichpunkte5;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.CheckBox;
 
 public class Student
 {
     private SimpleStringProperty nameProperty = new SimpleStringProperty();
+
+    private SimpleIntegerProperty semesterProperty = new SimpleIntegerProperty();
+
+    private SimpleIntegerProperty matnrProperty = new SimpleIntegerProperty();
+
+    private SimpleBooleanProperty graduateProperty = new SimpleBooleanProperty();
+
+    private ObservableList<Student> studentOL = FXCollections.observableArrayList();
+
+    private CheckBox isGraduated;
+
+    public Student(String name, Integer semester, Integer matnr, boolean isGraduated)
+    {
+        super();
+        this.nameProperty.setValue(name);
+
+        this.semesterProperty.setValue(semester);
+        this.matnrProperty.setValue(matnr);
+        this.isGraduated = new CheckBox();
+        this.graduateProperty.setValue(isGraduated);
+        this.isGraduated.setSelected(graduateProperty.getValue());
+        studentOL.add(this);
+    }
+
+    public ObservableList<Student> getStudentOL()
+    {
+        return studentOL;
+    }
+
+    public void setStudentOL(ObservableList<Student> studentOL)
+    {
+        this.studentOL = studentOL;
+    }
+
+    public CheckBox getIsGraduated()
+    {
+        return isGraduated;
+    }
 
     public SimpleStringProperty getNameProperty()
     {
@@ -39,31 +79,6 @@ public class Student
         this.matnrProperty = matnrProperty;
     }
 
-    private SimpleIntegerProperty semesterProperty = new SimpleIntegerProperty();
-
-    private SimpleIntegerProperty matnrProperty = new SimpleIntegerProperty();
-
-    private ObservableList<Student> studentOL = FXCollections.observableArrayList();
-
-    public Student(String name, Integer semester, Integer matnr)
-    {
-        super();
-        this.nameProperty.setValue(name);
-        this.semesterProperty.setValue(semester);
-        this.matnrProperty.setValue(matnr);
-        studentOL.add(this);
-    }
-
-    public ObservableList<Student> getStudentOL()
-    {
-        return studentOL;
-    }
-
-    public void setStudentOL(ObservableList<Student> studentOL)
-    {
-        this.studentOL = studentOL;
-    }
-
     public String getName()
     {
         return nameProperty.getValue();
@@ -92,5 +107,16 @@ public class Student
     public void setSemester(Integer value)
     {
         getSemesterProperty().setValue(value);
+    }
+
+    public SimpleBooleanProperty getGraduateProperty()
+    {
+        return graduateProperty;
+    }
+
+    public void setGraduateProperty(boolean value)
+    {
+        this.graduateProperty.setValue(value);
+        this.isGraduated.setSelected(graduateProperty.getValue());
     }
 }
