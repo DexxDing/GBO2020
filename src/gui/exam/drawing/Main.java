@@ -37,7 +37,7 @@ public class Main extends Application
 
     private RadioButton kreis, linie, rechteck;
 
-    private Button deleteBtn, protocolBtn;
+    private Button deleteBtn, protocolBtn, undo, redo;
 
     private Label countLabel;
 
@@ -46,6 +46,8 @@ public class Main extends Application
     private Stage protocolStage = new Stage();
 
     private HBox hbox = new HBox(10);
+
+    private UndoRedoManager manager = new UndoRedoManager();
 
     private int linien, rechtecke, kreise, gesamt;
 
@@ -105,9 +107,24 @@ public class Main extends Application
         onPressed();
         onDragged();
         onReleased();
+        initUndoRedo();
         primaryStage.setTitle("Zeichnen von Formen");
         primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();
+    }
+
+    private void initUndoRedo()
+    {
+        undo = new Button("undo");
+        redo = new Button("redo");
+        undo.setOnAction(e ->
+        {
+            manager.undo();
+        });
+        redo.setOnAction(e -> manager.redo());
+        tb.getItems().add(undo);
+        tb.getItems().add(redo);
+
     }
 
     public static void main(String[] args)
@@ -233,18 +250,25 @@ public class Main extends Application
                 handleStroke(line, Color.BLACK, 2d);
                 setLinien(getLinien() + 1);
                 ta.setText(ta.getText().concat(line.toString() + "\n"));
+                Action action = new Action(this, (Shape) line);
+                manager.add(action);
+
             }
             if (rechteck.isSelected())
             {
                 handleStroke(rectangle, Color.BLACK, 2d);
                 setRechtecke(getRechtecke() + 1);
                 ta.setText(ta.getText().concat(rectangle.toString() + "\n"));
+                Action action = new Action(this, (Shape) rectangle);
+                manager.add(action);
             }
             if (kreis.isSelected())
             {
                 handleStroke(circle, Color.BLACK, 2d);
                 setKreise(getKreise() + 1);
                 ta.setText(ta.getText().concat(circle.toString() + "\n"));
+                Action action = new Action(this, (Shape) circle);
+                manager.add(action);
             }
             setGesamt(getLinien() + getKreise() + getRechtecke());
             countLabel.setText("Linien: " + getLinien() + " Rechtecke: " + getRechtecke() + " Kreise: " + getKreise() + " Gesamt: " + getGesamt());
@@ -283,6 +307,7 @@ public class Main extends Application
         {
             drawingPane.getChildren().clear();
             resetAllCounter();
+            manager.clear();
         });
         tb.getItems().add(deleteBtn);
     }
@@ -321,5 +346,15 @@ public class Main extends Application
                 protocolStage().showAndWait();
             }
         });
+    }
+
+    public void delete(Shape s)
+    {
+        drawingPane.getChildren().remove(s);
+    }
+
+    public void add(Shape s)
+    {
+        drawingPane.getChildren().add(s);
     }
 }
