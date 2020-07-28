@@ -1,14 +1,24 @@
 package gui.listview;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class View extends BorderPane
@@ -30,7 +40,28 @@ public class View extends BorderPane
 
     private Label nameL, vornameL, ageL;
 
+    private MenuBar menuBar;
+
+    private Menu file;
+
+    private MenuItem exit;
+
     private UndoRedoManager manager = new UndoRedoManager();
+
+    public void initDropdownMenu()
+    {
+        menuBar = new MenuBar(); // hier nur Menutems
+        ContextMenu contextMenu = new ContextMenu();
+        CustomMenuItem customMenuItem = new CustomMenuItem(new javafx.scene.shape.Rectangle(20, 20, Color.BLUE));
+        Separator separator = new Separator(Orientation.HORIZONTAL);
+        CustomMenuItem customMenuItem2 = new CustomMenuItem(separator);
+        exit = new MenuItem("Exit");
+        exit.setAccelerator(new KeyCodeCombination(KeyCode.ESCAPE));
+        contextMenu.getItems().addAll(customMenuItem, customMenuItem2, exit);
+        Label l = new Label("Open Context Menu");
+        l.setContextMenu(contextMenu);
+        header.getItems().add(l);
+    }
 
     public View(Presenter p)
     {
@@ -47,6 +78,7 @@ public class View extends BorderPane
         commitInsert = new Button("Hinzufügen");
         commitUpdate = new Button("Bestätige Änderung");
         initToolbar();
+        initDropdownMenu();
         p.fillListView();
         onUpdate();
         onDelete();
@@ -191,13 +223,12 @@ public class View extends BorderPane
 
     public void handleInsert()
     {
-        if (!nameTF.getText().isEmpty() && !vornameTF.getText().isEmpty() && ageTF.getText().matches("[0-9]*"))
+        if (!nameTF.getText().isEmpty() && !vornameTF.getText().isEmpty() && ageTF.getText().matches("[0-9]*") && !ageTF.getText().isEmpty())
         {
             Person person = new Person(nameTF.getText(), vornameTF.getText(), Integer.valueOf(ageTF.getText()));
             p.insertPerson(person);
             Action action = new Action(p, this, person);
             manager.add(action);
-
             getInsertStage().close();
         }
     }

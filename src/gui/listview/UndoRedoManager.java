@@ -33,25 +33,35 @@ public class UndoRedoManager
                        // immernoch auf dem n+1 Element also auf n (letztes
                        // Element).
             actionList.get(pointer).undo();
+            System.out.println("actionList size: " + actionList.size() + " Pointer Pos: " + pointer);
         }
     }
 
     public void redo()
     {
-        if (actionList.size() > pointer)
+        try
         {
-            actionList.get(pointer).redo();
-            pointer++;
+            if (actionList.size() > pointer)
+            {
+                actionList.get(pointer).redo();
+                pointer++;
+                System.out.println("actionList size: " + actionList.size() + " Pointer Pos: " + pointer);
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("redo fail");
         }
     }
 
     public void delete(int index)
     {
-        if (index > 0)
+        if (index >= 0)
         {
-            pointer = index - 1;
+            pointer = index;
+            actionList.remove(index);
+            System.out.println("actionList size: " + actionList.size() + " Pointer " + " Pos: " + pointer);
         }
-        actionList.remove(index);
     }
 
     public void clear()
