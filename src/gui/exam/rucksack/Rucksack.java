@@ -30,7 +30,7 @@ public class Rucksack extends Application
 
     private Stage secondStage;
 
-    private Button addBtng, deleteBtn;
+    private Button addBtn, deleteBtn;
 
     private Pane drawingPane;
 
