@@ -11,6 +11,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -55,9 +56,11 @@ public class Rucksack extends Application
         initPane();
         addToSplitPane();
         root.setCenter(splitPane);
-        root.setBottom(addBtn);
+        ToolBar footer = new ToolBar(addBtn, deleteBtn);
+        root.setBottom(footer);
         handleSecondStage();
         onPressedHinzufügen();
+        onDelete();
         primaryStage.setTitle("Rucksack Klausur");
         primaryStage.setScene(new Scene(root, 400, 500));
         primaryStage.setResizable(false);
@@ -85,7 +88,8 @@ public class Rucksack extends Application
 
     public void initPane()
     {
-        addBtn = new Button("Add Gegenstand");
+        addBtn = new Button("Gegenstand hinzufügen");
+        deleteBtn = new Button("Gegenstand löschen");
         nameTF = new TextField();
         gewichtTF = new TextField();
 
@@ -179,6 +183,22 @@ public class Rucksack extends Application
             ol.add(new Gegenstand(Double.valueOf(gewichtTF.getText()), nameTF.getText(), new CheckBox()));
             handleChanges();
         });
+    }
+
+    public void onDelete()
+    {
+        deleteBtn.setOnAction(e ->
+        {
+            handleDelete();
+        });
+    }
+
+    private void handleDelete()
+    {
+        if (tv.getSelectionModel().getSelectedItems().size() > 0)
+        {
+            tv.getItems().remove((tv.getSelectionModel().getSelectedItem()));
+        }
     }
 
     public static void main(String[] args)

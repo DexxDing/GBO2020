@@ -1,4 +1,4 @@
-package gui.Stichpunkte5;
+package gui.tableview;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;

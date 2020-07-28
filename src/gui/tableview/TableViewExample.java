@@ -1,4 +1,4 @@
-package gui.Stichpunkte5;
+package gui.tableview;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
