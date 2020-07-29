@@ -7,4 +7,6 @@ public interface UndoRedoActions
 
     public void redo();
 
+    public void delete();
+
 }

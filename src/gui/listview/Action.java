@@ -29,4 +29,9 @@ public class Action implements UndoRedoActions
         presenter.add(this.person);
     }
 
+    public void delete()
+    {
+        presenter.delete(this.person);
+    }
+
 }

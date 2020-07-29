@@ -181,7 +181,7 @@ public class View extends BorderPane
     {
         if (lv.getSelectionModel().getSelectedItems().size() > 0)
         {
-            p.handleDelete(lv.getSelectionModel().getSelectedIndex());
+            // p.handleDelete(lv.getSelectionModel().getSelectedIndex());
             manager.delete(lv.getSelectionModel().getSelectedIndex());
         }
     }
@@ -227,8 +227,12 @@ public class View extends BorderPane
         {
             Person person = new Person(nameTF.getText(), vornameTF.getText(), Integer.valueOf(ageTF.getText()));
             p.insertPerson(person);
-            Action action = new Action(p, this, person);
-            manager.add(action);
+            Action action = new Action(p, this, person); // erstelle beim
+                                                         // hinzufügen neuer
+                                                         // Personen ein neues
+                                                         // Action Obj mit der
+                                                         // Person
+            manager.addAction(action);// ADD Action Objekt
             getInsertStage().close();
         }
     }

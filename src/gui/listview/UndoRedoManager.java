@@ -9,17 +9,21 @@ public class UndoRedoManager
 
     private int pointer;
 
+    private boolean deleted = false;
+
+    private int deltePointer = 0;
+
     public UndoRedoManager()
     {
         actionList = new ArrayList<UndoRedoActions>();
         pointer = 0;
     }
 
-    public void add(UndoRedoActions interfaceAction)
+    public void addAction(UndoRedoActions interfaceAction)
     {
         for (int i = actionList.size() - 1; i >= pointer; i--)
         {
-            actionList.remove(i); // löschen der ActionList Elemente nach undo
+            actionList.remove(i);
         }
         pointer++;
         actionList.add(interfaceAction);
@@ -29,9 +33,7 @@ public class UndoRedoManager
     {
         if (pointer > 0)
         {
-            pointer--; // bei undo zuerst pointer nach links schieben, er ist
-                       // immernoch auf dem n+1 Element also auf n (letztes
-                       // Element).
+            pointer--;
             actionList.get(pointer).undo();
             System.out.println("actionList size: " + actionList.size() + " Pointer Pos: " + pointer);
         }
@@ -41,11 +43,20 @@ public class UndoRedoManager
     {
         try
         {
-            if (actionList.size() > pointer)
+            if (actionList.size() > pointer || actionList.size() > deltePointer)
             {
-                actionList.get(pointer).redo();
-                pointer++;
-                System.out.println("actionList size: " + actionList.size() + " Pointer Pos: " + pointer);
+                if (!deleted)
+                {
+                    actionList.get(pointer).redo();
+                    pointer++;
+                    System.out.println("actionList size: " + actionList.size() + " Pointer Pos: " + pointer);
+                }
+                else if (deleted)
+                {
+                    actionList.get(deltePointer).redo();
+                    System.out.println("Redo an Stelle der geloeschten Einheit.");
+                    deleted = false;
+                }
             }
         }
         catch (Exception e)
@@ -56,12 +67,11 @@ public class UndoRedoManager
 
     public void delete(int index)
     {
-        if (index >= 0)
-        {
-            pointer = index;
-            actionList.remove(index);
-            System.out.println("actionList size: " + actionList.size() + " Pointer " + " Pos: " + pointer);
-        }
+        deleted = true;
+        deltePointer = index;
+        actionList.get(index).delete();
+        System.out.println("Delte Action");
+        System.out.println("actionList size: " + actionList.size() + " Delete Pointer " + " Pos: " + deltePointer);
     }
 
     public void clear()
