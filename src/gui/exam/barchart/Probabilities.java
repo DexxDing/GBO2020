@@ -69,6 +69,16 @@ public class Probabilities extends Application
             update((int) nSlider.getValue(), pSlider.getValue(), poisson.isSelected());
         });
 
+        drawRoot.widthProperty().addListener((ov, o, n) ->
+        {
+            update((int) nSlider.getValue(), pSlider.getValue(), poisson.isSelected());
+        });
+
+        drawRoot.heightProperty().addListener((ov, o, n) ->
+        {
+            update((int) nSlider.getValue(), pSlider.getValue(), poisson.isSelected());
+        });
+
         root.setCenter(drawRoot); // zeichenflaeche adden
 
         primaryStage.setTitle("REFERENZ");
@@ -91,6 +101,7 @@ public class Probabilities extends Application
 
         double[] resultBinom = Computation.computeBinomProbs(n, p);
         double[] resultPoisson = Computation.computePoissonProbs(n, p);
+        double drawWith = drawRoot.getWidth() - 60;
         double effectiveDrawWith = (drawRoot.getWidth() - 60 - (4 * (n)));
         double efftiveDrawHeight = drawRoot.getHeight() - 60;
         int maxRectangles = n + 1;
@@ -137,7 +148,7 @@ public class Probabilities extends Application
             });
 
             // Mittelwert
-            Line mittelwert = new Line(30 + (p * effectiveDrawWith), yPos, 30 + (p * effectiveDrawWith), 30);
+            Line mittelwert = new Line(30 + (p * drawWith), yPos, 30 + (p * drawWith), 30);
             mittelwert.setStroke(Color.RED);
             mittelwert.setStrokeWidth(4);
 

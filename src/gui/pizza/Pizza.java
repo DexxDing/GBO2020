@@ -85,6 +85,7 @@ public class Pizza extends Application
         root = new GridPane();
         root.setPadding(new Insets(10));
         parameterMap = getParameters().getNamed();
+        System.out.println(parameterMap.get("toppings"));
         this.config = ParameterConverter.createConfiguration(parameterMap);
         initCheckBoxes();
         initRadioBoxes();
@@ -210,10 +211,6 @@ public class Pizza extends Application
     // zum Testen einfach die Kommando Zeilen Argumente übergeben
     public static void main(String[] args)
     {
-        for (String s : args)
-        {
-            System.out.println(s);
-        }
         launch(args);
     }
 
